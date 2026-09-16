@@ -33,17 +33,23 @@ pub fn process_instruction(
         .split_first()
         .ok_or(ProgramError::InvalidInstructionData)?;
 
-    match EscrowInstructions::try_from(discriminator)? {
-        EscrowInstructions::Make => {
-            instructions::process_make_instruction(accounts, data)?
+        match EscrowInstructions::try_from(discriminator)? {
+            EscrowInstructions::Make => {
+                instructions::process_make_instruction(accounts, data)?
+            }
+        
+            EscrowInstructions::Take => {
+                instructions::process_take_instruction(accounts, data)?
+            }
+        
+            EscrowInstructions::Cancel => {
+                instructions::process_cancel_instruction(accounts, data)?
+            }
+        
+            EscrowInstructions::MakeV2 => {
+                return Err(ProgramError::InvalidInstructionData);
+            }
         }
-
-        EscrowInstructions::Take => {
-            instructions::process_take_instruction(accounts, data)?
-        }
-
-        _ => return Err(ProgramError::InvalidInstructionData),
-    }
 
     Ok(())
 }
