@@ -11,6 +11,7 @@ use pinocchio::{
 
 use crate::instructions::EscrowInstructions;
 
+#[cfg(test)]
 mod tests;
 mod state;
 mod instructions;
